@@ -1,0 +1,38 @@
+<h2>Log in</h2>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="form-group"><br >
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %><br />
+    <%= f.password_field :password, autocomplete: "current-password" %>
+  </div>
+
+  <% if devise_mapping.rememberable? %>
+    <div class="field">
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "Log in" %>
+  </div><br >
+<% end %>
+
+<div>
+  <%= render "devise/shared/links" %>
+</div>
+
+<div>
+  <%= link_to image_tag("logos/facebook.png", width: "50"), user_facebook_omniauth_authorize_path %>
+  <%= link_to image_tag("logos/google.png", width: "50") %>
+  <%= link_to image_tag("logos/linkedin.png", width: "50") %>
+</div>
+
+
+
+
