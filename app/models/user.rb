@@ -1,11 +1,9 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise  :database_authenticatable, :registerable,
           :recoverable, :rememberable, :validatable,
           # :omniauthable, omniauth_providers: %i[facebook]
           :omniauthable, omniauth_providers: [:google_oauth2, :facebook, :linkedin]
-          
+
 def self.from_omniauth(auth, signed_in_resource = nil)
     user = User.where(provider: auth.provider, uid: auth.uid).first
     if user.present?
@@ -26,25 +24,22 @@ def self.from_omniauth(auth, signed_in_resource = nil)
           user.last_name = auth.info.name
           user.uid = auth.uid
           user.provider = auth.provider
-          user.oauth_token = auth.credentials.token
-          # If you are using confirmable and the provider(s) you use validate emails,
-          # uncomment the line below to skip the confirmation emails.
-          end
+          user.oauth_token = auth.credentials.token 
+        end
           
         elsif auth.provider == 'linkedin'
-          user.provider = auth.provider
-          user.uid = auth.uid
-          user.oauth_token = auth.credentials.token
-          user.first_name = auth.info.first_name
-          user.last_name = auth.info.last_name
-          user.email = auth.info.email
+            user.email = auth.info.email
+            user.password = Devise.friendly_token[0,20]
+            user.first_name = auth.info.name
+            user.last_name = auth.info.name
+            user.uid = auth.uid
+            user.provider = auth.provider
+            user.oauth_token = auth.credentials.token
           user.save
+          p user
 
         elsif auth.provider == 'google_oauth2'
-          p 111111111111111111
           user.provider = auth.provider
-          p user
-          p 222222222222222222
           user.uid = auth.uid
           user.oauth_token = auth.credentials.token
           user.first_name = auth.info.first_name
@@ -58,5 +53,4 @@ def self.from_omniauth(auth, signed_in_resource = nil)
     end
     user
   end
-
 end
