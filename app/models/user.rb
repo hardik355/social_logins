@@ -3,7 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise  :database_authenticatable, :registerable,
           :recoverable, :rememberable, :validatable,
-          :omniauthable, omniauth_providers: %i[facebook]
+          # :omniauthable, omniauth_providers: %i[facebook]
+          :omniauthable, omniauth_providers: [:google_oauth2, :facebook, :linkedin]
           
 def self.from_omniauth(auth, signed_in_resource = nil)
     user = User.where(provider: auth.provider, uid: auth.uid).first
@@ -17,7 +18,6 @@ def self.from_omniauth(auth, signed_in_resource = nil)
         user = user_with_email
       else
         user = User.new
-        
         if auth.provider == 'facebook'
           where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
           user.email = auth.info.email
@@ -32,7 +32,6 @@ def self.from_omniauth(auth, signed_in_resource = nil)
           end
           
         elsif auth.provider == 'linkedin'
-
           user.provider = auth.provider
           user.uid = auth.uid
           user.oauth_token = auth.credentials.token
@@ -41,21 +40,11 @@ def self.from_omniauth(auth, signed_in_resource = nil)
           user.email = auth.info.email
           user.save
 
-        elsif auth.provider == 'twitter'
-          user.provider = auth.provider
-          user.uid = auth.uid
-          user.oauth_token = auth.credentials.token
-          user.oauth_user_name = auth.extra.raw_info.name
-
-        elsif auth.provider == 'github'
-          user.provider = auth['provider']
-          user.uid = auth['uid']
-          user.oauth_user_name = auth['info']['name']
-          user.email = auth['info']['email']
-          user.save
-
         elsif auth.provider == 'google_oauth2'
+          p 111111111111111111
           user.provider = auth.provider
+          p user
+          p 222222222222222222
           user.uid = auth.uid
           user.oauth_token = auth.credentials.token
           user.first_name = auth.info.first_name
