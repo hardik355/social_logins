@@ -263,7 +263,9 @@ Devise.setup do |config|
   
   config.omniauth :facebook, '419579775647987', '8107e844d0dcfb8c56e215a1cbc37637'
   config.omniauth :google_oauth2, '339272304789-aqo4tdf3lth04bnnsm4bg58lgu3uvgpo.apps.googleusercontent.com', 'e1jyGV8lntgrCbh51kLdMCVB', { :redirect_uri => "http://localhost:3000/users/auth/google_oauth2/callback"}
-  config.omniauth :linkedin, "8172irio1vifu6", "egb0OvMTbDQe8oPX"
+  config.omniauth :linkedin, '8172irio1vifu6', 'egb0OvMTbDQe8oPX'
+  config.omniauth :twitter, 'DPnBlij2tHK318AalWCrQVr7a', 'nqMslHX5IeYS3InrSBmALpFgRK7ub0N2sF2zUt0feLxSaiZUur'
+  config.omniauth :github, '028b77b1b8efa28d84b3', '29bd04c44e471ba9cc50e48428263f7501ec3566'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
